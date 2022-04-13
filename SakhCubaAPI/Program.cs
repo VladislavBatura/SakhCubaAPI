@@ -29,9 +29,14 @@ builder.Services.AddDbContext<SakhCubaContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSQL"));
 });
+builder.Services.AddCors();
+
+builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<SakhCubaContext>();
 builder.Services.AddScoped<ApplicationService>();
+builder.Services.AddScoped<AdminService>();
+builder.Services.AddScoped<NewsService>();
 
 var app = builder.Build();
 
@@ -40,14 +45,22 @@ if (!app.Environment.IsDevelopment())
 {
 }
 
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Test1 Api v1");
+});
+
 app.UseStaticFiles();
 app.UseRouting();
+
+app.UseCors(builder => {builder.AllowAnyOrigin(); builder.AllowAnyHeader(); });
 
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller}/{action=Index}/{id?}");
+    pattern: "api/{controller}/{action}/{id?}");
 
 app.Run();

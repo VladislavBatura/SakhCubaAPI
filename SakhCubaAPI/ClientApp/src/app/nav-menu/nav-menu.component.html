@@ -3,7 +3,7 @@
     class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3"
   >
     <div class="container">
-      <a class="navbar-brand" [routerLink]="['/']">SakhCubaAPI</a>
+      <a class="navbar-brand" [routerLink]="['/']">SakhCuba</a>
       <button
         class="navbar-toggler"
         type="button"
@@ -25,16 +25,27 @@
             [routerLinkActive]="['link-active']"
             [routerLinkActiveOptions]="{ exact: true }"
           >
-            <a class="nav-link text-dark" [routerLink]="['/']">Home</a>
+            <a class="nav-link text-dark" [routerLink]="['/']">Главная</a>
           </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/counter']"
-              >Counter</a
+          <li class="nav-item"
+           [routerLinkActive]="['link-active']"
+            [routerLinkActiveOptions]="{exact:true}">
+            <a class="nav-link text-dark" [routerLink]="['/news']"
+              >Новости</a
             >
           </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/fetch-data']"
-              >Fetch data</a
+          <li class="nav-item"
+           [routerLinkActive]="['link-active']"
+            [routerLinkActiveOptions]="{exact:true}">
+            <a class="nav-link text-dark" [routerLink]="['/rules']"
+              >Правила</a
+            >
+          </li>
+          <li class="nav-item"
+           [routerLinkActive]="['link-active']"
+           [routerLinkActiveOptions]="{exact:true}">
+            <a class="nav-link text-dark" [routerLink]="['/application']"
+              >Анкета</a
             >
           </li>
         </ul>

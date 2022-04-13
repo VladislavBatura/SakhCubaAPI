@@ -47,8 +47,7 @@ namespace SakhCubaAPI.Services
 
             var decisionHandler = await _context.Decisions.FirstOrDefaultAsync(d => d.Id == 1);
             application.DecisionId = decisionHandler.Id;
-            var time = DateTime.Today;
-            application.Date = time.Date;
+            application.Date = DateOnly.FromDateTime(DateTime.Today);
             application.Ip = ip;
             _context.Applications.Add(application);
             await _context.SaveChangesAsync();

@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SakhCubaAPI.Models.DBModels;
+using SakhCubaAPI.Services;
 
 namespace SakhCubaAPI.Areas.Admin.Controllers
 {
@@ -8,36 +10,49 @@ namespace SakhCubaAPI.Areas.Admin.Controllers
     [ApiController]
     public class AdminController : ControllerBase
     {
+        private readonly AdminService _adminService;
+
+        public AdminController(AdminService adminService)
+        {
+            _adminService = adminService;
+        }
+
         // GET: api/<AdminController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult Index()
         {
-            return new string[] { "value1", "value2" };
+            var data = _adminService.GetApplicationsAsync();
+            if (data == null)
+                return NoContent();
+            return Ok(data);
         }
 
         // GET api/<AdminController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
-        }
-
-        // POST api/<AdminController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
+            var app = _adminService.GetApplication(id);
+            if (app == null)
+                return BadRequest(app);
+            return Ok(app);
         }
 
         // PUT api/<AdminController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        public IActionResult Put([FromBody] Application app)
         {
+            if (!_adminService.UpdateApplication(app).Result)
+                return BadRequest(app);
+            return Ok();
         }
 
         // DELETE api/<AdminController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            if (!_adminService.DeleteApplication(id).Result)
+                return BadRequest();
+            return Ok();
         }
     }
 }

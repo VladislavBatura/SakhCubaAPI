@@ -1,0 +1,40 @@
+<section class="form">
+    <div class="container">
+        <div class="form__wrapper">
+        <div class="form__attention">
+            <h3 class="title-h3">Внимание!</h3>
+            <div class="form__descr">
+                <p>Перед заполнением анкеты обязательно ознакомьтесь с правилами!</p>
+            </div>
+        </div>
+
+        <form #form="ngForm" method="POST" novalidate (ngSubmit)="onSubmit(form)">
+            <div class="form__item first">
+                <label class="form__item-title" for="nickname">Ник в игре</label>
+                <label class="form__item-title" for="discord-nickname">Ник в дискорде в формате Вася#1234</label>
+                <input type="text" name="nickname" [(ngModel)]="application.nickname"
+                 placeholder="Ответ" minlength="1" maxlength="50"
+                 #nickname="ngModel" required>
+                <input type="text" name="discordName" [(ngModel)]="application.discordNickname"
+                 placeholder="Ответ"minlength="1" maxlength="70"
+                 #discordName="ngModel" required>
+            </div>
+            <div class="form__item">
+                <label class="form__item-title" for="about">Расскажите о себе</label>
+                <div class="form__item-subtitle">Обязательно укажите <strong>возраст</strong> и пару предложений о том кто вы и почему хотите играть на нашем проекте</div>
+                <textarea name="about" data-txtarea="" [(ngModel)]="application.about"
+                 cols="30" rows="4" placeholder="Ответ" minlength="1" maxlength="10000"
+                 #about="ngModel" required></textarea>
+            </div>
+
+            <input type="submit" [disabled]="form.invalid" class="btn" value="Отправить">
+        </form>
+        <div *ngIf="done">
+            <div>
+                Всё окей, всё прошло, ты красава ;D
+            </div>
+        </div>
+        </div>
+    </div>
+</section>
+

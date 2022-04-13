@@ -10,7 +10,7 @@ namespace SakhCubaAPI.Models.DBModels
         public string About { get; set; } = "";
         public string Ip { get; set; } = "";
         [DataType(DataType.Date)]
-        public DateTime Date { get; set; }
+        public DateOnly Date { get; set; }
 
         public int DecisionId { get; set; }
         public Decision Decision { get; set; } = new Decision();

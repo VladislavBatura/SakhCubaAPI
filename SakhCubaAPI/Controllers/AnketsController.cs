@@ -26,9 +26,9 @@ namespace SakhCubaAPI.Controllers
         public IActionResult Index()
         {
             var news = _app.GetLastNewsAsync(3);
-            if (news.Result.Count() == 0)
+            if (!news.Result.Any())
             {
-                return NotFound();
+                return Ok();
             }
             return Ok(news);
         }
@@ -57,10 +57,12 @@ namespace SakhCubaAPI.Controllers
         }
 
         [HttpPost("application")]
-        public IActionResult Application(Application application)
+        public IActionResult Application([FromBody]Application application)
         {
+            _logger.LogInformation("entered method");
             if (ModelState.IsValid)
             {
+                _logger.LogInformation("Model is ok");
                 var result = _app.SendApplicationAsync(application,
                     Request.HttpContext.Connection.RemoteIpAddress
                     .MapToIPv4()
@@ -68,9 +70,11 @@ namespace SakhCubaAPI.Controllers
 
                 if (!result.Result)
                 {
+                    _logger.LogError("Can't add model to db");
                     return BadRequest(application);
                 }
 
+                _logger.LogInformation("Everything is ok");
                 return Ok();
             }
             else
