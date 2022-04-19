@@ -25,7 +25,10 @@ namespace SakhCubaAPI.Services
 
         public async Task<IEnumerable<News>> GetAllNewsAsync()
         {
-            return await _context.News.ToListAsync();
+            var news = await _context.News.ToListAsync();
+            if (news is null || !news.Any())
+                return Enumerable.Empty<News>();
+            return news;
         }
 
         public async Task<IEnumerable<News>> GetLastNewsAsync(int howMany)
@@ -47,7 +50,7 @@ namespace SakhCubaAPI.Services
 
             var decisionHandler = await _context.Decisions.FirstOrDefaultAsync(d => d.Id == 1);
             application.DecisionId = decisionHandler.Id;
-            application.Date = DateOnly.FromDateTime(DateTime.Today);
+            application.Date = DateTime.Today;
             application.Ip = ip;
             _context.Applications.Add(application);
             await _context.SaveChangesAsync();

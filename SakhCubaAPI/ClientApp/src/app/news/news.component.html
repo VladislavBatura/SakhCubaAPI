@@ -1,35 +1,8 @@
-<section class="latest-news latest-news_horizontal" style="background: none; padding: 75px 0 190px 0">
-    <div class="container">
-        <div class="latest-news__wrapper">
-                                            <a href="https://sakhcuba.ru/my-zhivy/" class="latest-news__item" style="background: url(https://sakhcuba.ru/wp-content/uploads/2021/10/2020-08-09_15.28.41.png) center center/cover no-repeat">
-                            <h3 class="title-h3 white">Мы живы?</h3>
-                            <div class="latest-news__date white">03.10.2021</div>
-                        </a>
-
-                                            <a href="https://sakhcuba.ru/obnovlenie-pravil-ot-30-01-2021/" class="latest-news__item" style="background: url(https://sakhcuba.ru/wp-content/uploads/2021/01/2020-09-28_17.33.56.png) center center/cover no-repeat">
-                            <h3 class="title-h3 white">Обновление правил от 30.01.2021</h3>
-                            <div class="latest-news__date white">30.01.2021</div>
-                        </a>
-
-                                            <a href="https://sakhcuba.ru/privet-mir/" class="latest-news__item" style="background: url(https://sakhcuba.ru/wp-content/uploads/2021/01/photo2.png) center center/cover no-repeat">
-                            <h3 class="title-h3 white">Привет, мир!</h3>
-                            <div class="latest-news__date white">17.01.2021</div>
-                        </a>
-
-                                            <a href="https://sakhcuba.ru/a-hummer-sajt-obnovil/" class="latest-news__item" style="background: url(https://sakhcuba.ru/wp-content/uploads/2021/01/photo6.png) center center/cover no-repeat">
-                            <h3 class="title-h3 white">Обновление сайта</h3>
-                            <div class="latest-news__date white">17.01.2021</div>
-                        </a>
-
-                                            <a href="https://sakhcuba.ru/testovaya-novost/" class="latest-news__item" style="background: url(https://sakhcuba.ru/wp-content/uploads/2021/01/photo1.png) center center/cover no-repeat">
-                            <h3 class="title-h3 white">Сервер Minecraft, который мы заслужили</h3>
-                            <div class="latest-news__date white">17.01.2021</div>
-                        </a>
-
-                            </div>
-    </div>
-</section>
-
 <section (loadstart)="loadNews">
+    <ul *ngFor="let newsOne of news">
+        <p>{{newsOne?.title}}</p>
+        <p>{{newsOne?.date}}</p>
+        <p>{{newsOne?.body}}</p>
+    </ul>
 
 </section>

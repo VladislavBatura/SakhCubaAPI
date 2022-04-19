@@ -19,38 +19,40 @@ namespace SakhCubaAPI.Areas.Admin.Controllers
 
         // GET: api/<AdminController>
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var data = _adminService.GetApplicationsAsync();
-            if (data == null)
+            var data = await _adminService.GetApplicationsAsync();
+            if (data == null || !data.Any())
                 return NoContent();
             return Ok(data);
         }
 
         // GET api/<AdminController>/5
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public IActionResult Get(int? id)
         {
-            var app = _adminService.GetApplication(id);
+            if (id is null)
+                return BadRequest();
+            var app = _adminService.GetApplication((int)id);
             if (app == null)
-                return BadRequest(app);
+                return BadRequest();
             return Ok(app);
         }
 
-        // PUT api/<AdminController>/5
+        // PUT api/<AdminController>/
         [HttpPut]
-        public IActionResult Put([FromBody] Application app)
+        public async Task<IActionResult> PutAsync([FromBody] Application app)
         {
-            if (!_adminService.UpdateApplication(app).Result)
+            if (!await _adminService.UpdateApplication(app))
                 return BadRequest(app);
             return Ok();
         }
 
         // DELETE api/<AdminController>/5
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> DeleteAsync(int id)
         {
-            if (!_adminService.DeleteApplication(id).Result)
+            if (!await _adminService.DeleteApplication(id))
                 return BadRequest();
             return Ok();
         }

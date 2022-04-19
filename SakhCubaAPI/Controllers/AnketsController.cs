@@ -12,42 +12,43 @@ namespace SakhCubaAPI.Controllers
     public class AnketsController : ControllerBase
     {
         private readonly ILogger _logger;
-        private readonly SakhCubaContext _context;
         private readonly ApplicationService _app;
 
         public AnketsController(ILogger<AnketsController> logger, SakhCubaContext context, ApplicationService app)
         {
             _logger = logger;
-            _context = context;
             _app = app;
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var news = _app.GetLastNewsAsync(3);
-            if (!news.Result.Any())
+            var news = await _app.GetLastNewsAsync(3);
+            if (news is null || !news.Any())
             {
-                return Ok();
+                return NoContent();
             }
             return Ok(news);
         }
 
         [HttpGet("news")]
-        public IActionResult News()
+        public async Task<IActionResult> News()
         {
-            return Ok(_app.GetAllNewsAsync());
+            var news = await _app.GetAllNewsAsync();
+            if (news is null || !news.Any())
+                return NoContent();
+            return Ok(news);
         }
 
         [HttpGet("news/{id?}")]
-        public IActionResult NewsView(int? id)
+        public async Task<IActionResult> NewsView(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var news = _app.GetOneNewsAsync((int)id);
+            var news = await _app.GetOneNewsAsync((int)id);
             if (news == null)
             {
                 return NotFound();
@@ -57,18 +58,18 @@ namespace SakhCubaAPI.Controllers
         }
 
         [HttpPost("application")]
-        public IActionResult Application([FromBody]Application application)
+        public async Task<IActionResult> Application([FromBody]Application application)
         {
             _logger.LogInformation("entered method");
             if (ModelState.IsValid)
             {
                 _logger.LogInformation("Model is ok");
-                var result = _app.SendApplicationAsync(application,
+                var result = await _app.SendApplicationAsync(application,
                     Request.HttpContext.Connection.RemoteIpAddress
                     .MapToIPv4()
                     .ToString());
 
-                if (!result.Result)
+                if (!result)
                 {
                     _logger.LogError("Can't add model to db");
                     return BadRequest(application);

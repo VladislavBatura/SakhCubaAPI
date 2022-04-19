@@ -1,1 +1,9 @@
-<p>admin works!</p>
+<section (loadstart)="loadApplications">
+    <ul *ngFor="let app of applications">
+        <p>{{app.nickname}}</p>
+        <p>{{app.discordNickname}}</p>
+        <p>{{app.about}}</p>
+        <p>{{app.ip}}</p>
+        <p>{{app.date}}</p>
+    </ul>
+</section>

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using SakhCubaAPI.Context;
@@ -11,9 +12,10 @@ using SakhCubaAPI.Context;
 namespace SakhCubaAPI.Migrations
 {
     [DbContext(typeof(SakhCubaContext))]
-    partial class SakhCubaContextModelSnapshot : ModelSnapshot
+    [Migration("20220415094450_User add")]
+    partial class Useradd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,8 +36,8 @@ namespace SakhCubaAPI.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
 
                     b.Property<int>("DecisionId")
                         .HasColumnType("integer");

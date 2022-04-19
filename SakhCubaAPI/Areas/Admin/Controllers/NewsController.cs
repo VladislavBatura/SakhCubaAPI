@@ -27,19 +27,19 @@ namespace SakhCubaAPI.Areas.Admin.Controllers
 
         // GET: api/News
         [HttpGet]
-        public ActionResult<IEnumerable<News>> GetNews()
+        public async Task<ActionResult<IEnumerable<News>>> GetNews()
         {
-            var data = _newsService.GetAllNewsAsync();
-            if (data == null)
+            var data = await _newsService.GetAllNewsAsync();
+            if (data == null || !data.Any())
                 return NoContent();
             return Ok(data);
         }
 
         // GET: api/News/5
         [HttpGet("{id}")]
-        public ActionResult<News> GetNews(int id)
+        public async Task<ActionResult<News>> GetNews(int id)
         {
-            var news = _newsService.GetOneNewsAsync(id);
+            var news = await _newsService.GetOneNewsAsync(id);
             if (news == null)
                 return NotFound();
             return Ok(news);
@@ -48,12 +48,12 @@ namespace SakhCubaAPI.Areas.Admin.Controllers
         // PUT: api/News/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut]
-        public IActionResult PutNews(News news)
+        public async Task<IActionResult> PutNews(News news)
         {
             if (news == null)
                 return BadRequest();
 
-            if (!_newsService.UpdateNewsAsync(news).Result)
+            if (!await _newsService.UpdateNewsAsync(news))
                 return BadRequest(news);
 
             return Ok();
@@ -70,9 +70,9 @@ namespace SakhCubaAPI.Areas.Admin.Controllers
 
         // DELETE: api/News/5
         [HttpDelete("{id}")]
-        public IActionResult DeleteNews(int id)
+        public async Task<IActionResult> DeleteNewsAsync(int id)
         {
-            if (!_newsService.DeleteNewsAsync(id).Result)
+            if (!await _newsService.DeleteNewsAsync(id))
                 return BadRequest();
             return Ok();
         }

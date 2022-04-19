@@ -1,8 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -16,6 +17,7 @@ import { AdminNewsComponent } from './admin-news/admin-news.component';
 import { AdminNewsViewComponent } from './admin-news-view/admin-news-view.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { RulesComponent } from './rules/rules.component';
+import { LoginComponent } from './login/login.component';
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent, pathMatch: 'full'},
@@ -23,6 +25,7 @@ const appRoutes: Routes = [
   {path: 'news/:id', component: NewsViewComponent},
   {path: 'rules', component: RulesComponent, pathMatch: 'full'},
   {path: 'application', component: ApplicationComponent, pathMatch: 'full'},
+  {path: 'login', component: LoginComponent, pathMatch: 'full'},
   //admin
   {path: 'admin', component: AdminComponent, pathMatch: 'full'},
   {path: 'admin/:id', component: AdminViewComponent},
@@ -46,14 +49,16 @@ const appRoutes: Routes = [
     AdminNewsComponent,
     AdminNewsViewComponent,
     RulesComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
     HttpClientModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

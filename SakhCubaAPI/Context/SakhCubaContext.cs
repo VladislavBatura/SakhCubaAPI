@@ -10,8 +10,16 @@ namespace SakhCubaAPI.Context
             Database.Migrate();
         }
 
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<JWT_Users>()
+                .HasIndex(e => e.Email)
+                .IsUnique();
+        }
+
         public DbSet<News> News { get; set; }
         public DbSet<Application> Applications { get; set; }
         public DbSet<Decision> Decisions { get; set; }
+        public DbSet<JWT_Users> Users { get; set; }
     }
 }

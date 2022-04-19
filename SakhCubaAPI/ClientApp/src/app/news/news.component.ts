@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ApplicationService } from '../application.service';
+import { News } from '../../assets/news';
 
 @Component({
   selector: 'app-news',
@@ -7,13 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NewsComponent implements OnInit {
 
-  constructor() { }
+  constructor(private httpService: ApplicationService) { }
+
+  news: News[] = [];
 
   ngOnInit(): void {
   }
 
-
   loadNews() : void {
-    
+    this.httpService.getIndexNews().subscribe((data: any) => this.news = data,
+     error => console.log(error));
   }
 }
