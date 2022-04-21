@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SakhCubaAPI.Context;
 using SakhCubaAPI.Models.DBModels;
+using SakhCubaAPI.Models.ViewModels;
+using System.Linq;
 
 namespace SakhCubaAPI.Services
 {
@@ -12,9 +14,39 @@ namespace SakhCubaAPI.Services
             _context = context;
         }
 
-        public async Task<IEnumerable<Application>> GetApplicationsAsync()
+        public async Task<IEnumerable<ApplicationViewModel>> GetApplicationsAsync()
         {
-            return await _context.Applications.Include(i => i.Decision).ToListAsync();
+            return ConvertAppToAppViewModelCollection(await _context.
+                Applications.Include(i => i.Decision).ToListAsync());
+        }
+
+        private IEnumerable<ApplicationViewModel> ConvertAppToAppViewModelCollection(
+            IEnumerable<Application> app)
+        {
+            var coll = Enumerable.Empty<ApplicationViewModel>();
+            foreach (var appItem in app)
+            {
+                var tempApp = ConvertApp(appItem);
+                if (tempApp.Id is not 0)
+                    coll = coll.Append(tempApp);
+            }
+            return coll.ToList();
+        }
+
+        private ApplicationViewModel ConvertApp(Application app)
+        {
+            if (app == null)
+                return new ApplicationViewModel();
+            var appViewModel = new ApplicationViewModel();
+            appViewModel.Id = app.Id;
+            appViewModel.Nickname = app.Nickname;
+            appViewModel.DiscordNickname = app.DiscordNickname;
+            appViewModel.About = app.About;
+            appViewModel.Ip = app.Ip;
+            appViewModel.Date = app.Date;
+            appViewModel.DecisionId = app.DecisionId;
+            appViewModel.Decision = app.Decision.DecisionName;
+            return appViewModel;
         }
 
         public Application? GetApplication(int id)
