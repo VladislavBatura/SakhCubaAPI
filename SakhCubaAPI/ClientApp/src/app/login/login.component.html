@@ -14,3 +14,9 @@
         <button class="button button-primary" (click)="login()">Login</button>
     </div>
 </form>
+
+<div *ngIf="isError">
+    <h2>
+        Произошла ошибка при отправке данных для входа
+    </h2>
+</div>

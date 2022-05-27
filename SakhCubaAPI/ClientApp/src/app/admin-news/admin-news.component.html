@@ -1,1 +1,7 @@
 <p>admin-news works!</p>
+
+<input name="imageUrl" type="file" accept="image/*" (change)="handleImageUpload($event)" />
+
+<div>
+    <img [src]="imageSrc" style="max-width:300px;max-height:300px"/>
+</div> 

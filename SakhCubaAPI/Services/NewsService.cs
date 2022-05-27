@@ -15,7 +15,7 @@ namespace SakhCubaAPI.Services
 
         public async void AddNewsAsync(News news)
         {
-            news.Date = DateOnly.FromDateTime(DateTime.Today);
+            news.Date = DateTime.UtcNow.Date;
             _context.News.Add(news);
             await _context.SaveChangesAsync();
         }

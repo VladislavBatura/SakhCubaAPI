@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Application } from 'src/assets/application';
-import { ApplicationService } from '../application.service';
+import { ApplicationService } from '../Services/application.service';
 
 @Component({
   selector: 'app-application',

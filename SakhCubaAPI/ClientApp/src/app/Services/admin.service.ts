@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { admin } from 'src/assets/Adressess';
-import { AdminApplication } from '../assets/application';
+import { AdminApplication } from '../../assets/application';
 
 @Injectable({
   providedIn: 'root'

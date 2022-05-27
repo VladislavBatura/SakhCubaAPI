@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SakhCubaAPI.Context;
 using SakhCubaAPI.Models.DBModels;
+using SakhCubaAPI.Models.ViewModels;
 using SakhCubaAPI.Services;
 
 namespace SakhCubaAPI.Controllers
@@ -25,9 +26,8 @@ namespace SakhCubaAPI.Controllers
         {
             var news = await _app.GetLastNewsAsync(3);
             if (news is null || !news.Any())
-            {
                 return NoContent();
-            }
+
             return Ok(news);
         }
 
@@ -37,19 +37,20 @@ namespace SakhCubaAPI.Controllers
             var news = await _app.GetAllNewsAsync();
             if (news is null || !news.Any())
                 return NoContent();
+
             return Ok(news);
         }
 
         [HttpGet("news/{id?}")]
         public async Task<IActionResult> NewsView(int? id)
         {
-            if (id == null)
+            if (id is null)
             {
-                return NotFound();
+                return BadRequest();
             }
 
             var news = await _app.GetOneNewsAsync((int)id);
-            if (news == null)
+            if (news is null)
             {
                 return NotFound();
             }
@@ -58,10 +59,13 @@ namespace SakhCubaAPI.Controllers
         }
 
         [HttpPost("application")]
-        public async Task<IActionResult> Application([FromBody]Application application)
+        public async Task<IActionResult> Application([FromBody]ApplicationViewModel application)
         {
-            _logger.LogInformation("entered method");
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(application);
+            }
+            else
             {
                 _logger.LogInformation("Model is ok");
                 var result = await _app.SendApplicationAsync(application,
@@ -77,10 +81,6 @@ namespace SakhCubaAPI.Controllers
 
                 _logger.LogInformation("Everything is ok");
                 return Ok();
-            }
-            else
-            {
-                return BadRequest(application);
             }
         }
     }

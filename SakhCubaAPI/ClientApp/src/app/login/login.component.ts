@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../Services/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
 
   form:FormGroup;
+  isError:boolean = false;
 
   constructor(private fb:FormBuilder,
     private authService:AuthService,
@@ -33,6 +34,10 @@ export class LoginComponent implements OnInit {
           () => {
             console.log("User is logged in");
             this.router.navigateByUrl('/admin');
+          },
+          error => {
+            console.log(error);
+            this.isError = true;
           }
         )
     }

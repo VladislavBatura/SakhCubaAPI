@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -18,20 +18,26 @@ import { AdminNewsViewComponent } from './admin-news-view/admin-news-view.compon
 import { NotFoundComponent } from './not-found/not-found.component';
 import { RulesComponent } from './rules/rules.component';
 import { LoginComponent } from './login/login.component';
+import { AdminGetResolver } from './Resolvers/admingetall.resolver';
+import { AuthInterceptor } from './auth.interceptor';
+import { AdminGetOneResolver } from './Resolvers/admin-get-one.resolver';
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent, pathMatch: 'full'},
   {path: 'news', component: NewsComponent, pathMatch: 'full'},
-  {path: 'news/:id', component: NewsViewComponent},
+  {path: 'news/:id', component: NewsViewComponent, pathMatch: 'full'},
   {path: 'rules', component: RulesComponent, pathMatch: 'full'},
   {path: 'application', component: ApplicationComponent, pathMatch: 'full'},
   {path: 'login', component: LoginComponent, pathMatch: 'full'},
-  //admin
-  {path: 'admin', component: AdminComponent, pathMatch: 'full'},
-  {path: 'admin/:id', component: AdminViewComponent},
   //news
   {path: 'admin/news', component: AdminNewsComponent, pathMatch: 'full'},
-  {path: 'admin/news/:id', component: AdminNewsViewComponent},
+  {path: 'admin/news/:id', component: AdminNewsViewComponent, pathMatch: 'full'},
+  //admin
+  {path: 'admin', component: AdminComponent, pathMatch: 'full', resolve: {
+    adminGet: AdminGetResolver
+  }},
+  {path: 'admin/:id', component: AdminViewComponent, pathMatch: 'full', resolve: {adminGetOne: AdminGetOneResolver}},
+  
 
   {path: '**', component: NotFoundComponent}
 ];
@@ -60,7 +66,11 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -13,6 +13,6 @@ namespace SakhCubaAPI.Models.DBModels
         public DateTime Date { get; set; }
 
         public int DecisionId { get; set; }
-        public Decision Decision { get; set; } = new Decision();
+        public Decision Decision { get; set; }
     }
 }

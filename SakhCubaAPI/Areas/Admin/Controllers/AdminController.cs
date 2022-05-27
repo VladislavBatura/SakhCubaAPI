@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SakhCubaAPI.Models.DBModels;
+using SakhCubaAPI.Models.ViewModels;
 using SakhCubaAPI.Services;
 
 namespace SakhCubaAPI.Areas.Admin.Controllers
@@ -24,26 +25,29 @@ namespace SakhCubaAPI.Areas.Admin.Controllers
             var data = await _adminService.GetApplicationsAsync();
             if (data == null || !data.Any())
                 return NoContent();
+
             return Ok(data);
         }
 
         // GET api/<AdminController>/5
         [HttpGet("{id}")]
-        public IActionResult Get(int? id)
+        public async Task<IActionResult> Get(int? id)
         {
             if (id is null)
                 return BadRequest();
-            var app = _adminService.GetApplication((int)id);
+
+            var app = await _adminService.GetApplicationAsync((int)id);
             if (app == null)
                 return BadRequest();
+
             return Ok(app);
         }
 
         // PUT api/<AdminController>/
         [HttpPut]
-        public async Task<IActionResult> PutAsync([FromBody] Application app)
+        public async Task<IActionResult> PutAsync([FromBody] ApplicationViewModel app)
         {
-            if (!await _adminService.UpdateApplication(app))
+            if (!await _adminService.UpdateApplicationAsync(app))
                 return BadRequest(app);
             return Ok();
         }
@@ -52,7 +56,7 @@ namespace SakhCubaAPI.Areas.Admin.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
-            if (!await _adminService.DeleteApplication(id))
+            if (!await _adminService.DeleteApplicationAsync(id))
                 return BadRequest();
             return Ok();
         }

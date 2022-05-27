@@ -16,8 +16,9 @@ namespace SakhCubaAPI.Services
 
         public async Task<IEnumerable<ApplicationViewModel>> GetApplicationsAsync()
         {
-            return ConvertAppToAppViewModelCollection(await _context.
-                Applications.Include(i => i.Decision).ToListAsync());
+            return ConvertAppToAppViewModelCollection(await _context.Applications
+                .Include(i => i.Decision)
+                .ToListAsync());
         }
 
         private IEnumerable<ApplicationViewModel> ConvertAppToAppViewModelCollection(
@@ -26,57 +27,89 @@ namespace SakhCubaAPI.Services
             var coll = Enumerable.Empty<ApplicationViewModel>();
             foreach (var appItem in app)
             {
-                var tempApp = ConvertApp(appItem);
-                if (tempApp.Id is not 0)
+                var tempApp = ConvertAppToViewModel(appItem);
+                if (tempApp is not null && tempApp.Id is not 0)
                     coll = coll.Append(tempApp);
             }
-            return coll.ToList();
+            return coll;
         }
 
-        private ApplicationViewModel ConvertApp(Application app)
+        public ApplicationViewModel? ConvertAppToViewModel(Application app)
         {
-            if (app == null)
-                return new ApplicationViewModel();
-            var appViewModel = new ApplicationViewModel();
-            appViewModel.Id = app.Id;
-            appViewModel.Nickname = app.Nickname;
-            appViewModel.DiscordNickname = app.DiscordNickname;
-            appViewModel.About = app.About;
-            appViewModel.Ip = app.Ip;
-            appViewModel.Date = app.Date;
-            appViewModel.DecisionId = app.DecisionId;
-            appViewModel.Decision = app.Decision.DecisionName;
+            if (app is null)
+                return null;
+
+            var appViewModel = new ApplicationViewModel()
+            {
+                Id = app.Id,
+                Nickname = app.Nickname,
+                DiscordNickname = app.DiscordNickname,
+                About = app.About,
+                Ip = app.Ip,
+                Date = app.Date,
+                DecisionId = app.DecisionId,
+                Decision = app.Decision.DecisionName
+            };
+
             return appViewModel;
         }
 
-        public Application? GetApplication(int id)
+        public Application? ConvertViewModelToApp(ApplicationViewModel appVM)
         {
-            var app = IsExist(id);
-            if (app.Result == null)
-            {
+            if (appVM is null)
                 return null;
-            }
-            return app.Result;
+
+            var app = new Application()
+            {
+                Id = appVM.Id,
+                Nickname = appVM.Nickname,
+                DiscordNickname = appVM.DiscordNickname,
+                About = appVM.About,
+                Ip = appVM.Ip,
+                Date = appVM.Date,
+                DecisionId = appVM.DecisionId
+            };
+
+            return app;
         }
 
-        public async Task<bool> UpdateApplication(Application application)
+        public async Task<ApplicationViewModel?> GetApplicationAsync(int id)
         {
-            if (application == null)
+            var app = await IsExist(id);
+            if (app == null)
+                return null;
+
+            var convertedApp = ConvertAppToViewModel(app);
+            if (convertedApp is null)
+                return null;
+
+            return convertedApp;
+        }
+
+        public async Task<bool> UpdateApplicationAsync(ApplicationViewModel application)
+        {
+            if (application is null)
             {
                 return false;
             }
-            _context.Applications.Update(application);
+
+            var app = ConvertViewModelToApp(application);
+            if (app is null)
+                return false;
+
+            _context.Applications.Update(app);
             await _context.SaveChangesAsync();
             return true;
         }
 
-        public async Task<bool> DeleteApplication(int id)
+        public async Task<bool> DeleteApplicationAsync(int id)
         {
             var app = IsExist(id);
             if (app.Result == null)
             {
                 return false;
             }
+
             _context.Applications.Remove(app.Result);
             await _context.SaveChangesAsync();
             return true;
@@ -84,7 +117,9 @@ namespace SakhCubaAPI.Services
 
         private async Task<Application?> IsExist(int id)
         {
-            var app = await _context.Applications.FirstOrDefaultAsync(p => p.Id == id);
+            var app = await _context.Applications
+                .Include(i => i.Decision)
+                .FirstOrDefaultAsync(p => p.Id == id);
             return app;
         }
     }

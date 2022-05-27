@@ -1,16 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SakhCubaAPI.Context;
 using SakhCubaAPI.Models.DBModels;
+using SakhCubaAPI.Models.ViewModels;
 
 namespace SakhCubaAPI.Services
 {
     public class ApplicationService
     {
         private readonly SakhCubaContext _context;
+        private readonly AdminService _adminService;
 
-        public ApplicationService(SakhCubaContext context)
+        public ApplicationService(SakhCubaContext context, AdminService adminService)
         {
             _context = context;
+            _adminService = adminService;
         }
 
         public async Task<News?> GetOneNewsAsync(int id)
@@ -41,18 +44,21 @@ namespace SakhCubaAPI.Services
             return news;
         }
 
-        public async Task<bool> SendApplicationAsync(Application application, string ip)
+        public async Task<bool> SendApplicationAsync(ApplicationViewModel applicationVM, string ip)
         {
-            if (application == null)
-            {
+            if (applicationVM is null)
                 return false;
-            }
 
             var decisionHandler = await _context.Decisions.FirstOrDefaultAsync(d => d.Id == 1);
-            application.DecisionId = decisionHandler.Id;
-            application.Date = DateTime.Today;
-            application.Ip = ip;
-            _context.Applications.Add(application);
+            applicationVM.DecisionId = decisionHandler.Id;
+            applicationVM.Date = DateTime.UtcNow.Date;
+            applicationVM.Ip = ip;
+
+            var app = _adminService.ConvertViewModelToApp(applicationVM);
+            if (app is null)
+                return false;
+
+            _context.Applications.Add(app);
             await _context.SaveChangesAsync();
 
             return true;

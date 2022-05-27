@@ -1,9 +1,46 @@
-<section (loadstart)="loadApplications">
-    <ul *ngFor="let app of applications">
-        <p>{{app.nickname}}</p>
-        <p>{{app.discordNickname}}</p>
-        <p>{{app.about}}</p>
-        <p>{{app.ip}}</p>
-        <p>{{app.date}}</p>
-    </ul>
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col border"> 
+                Ник
+            </div>
+            <div class="col border"> 
+                Ник в дискорде
+            </div>
+            <div class="col border"> 
+                IP
+            </div>
+            <div class="col border"> 
+                Дата
+            </div>
+            <div class="col border"> 
+                Решение
+            </div>
+            <div class="col"></div>
+        </div>
+        <div class="row" *ngFor="let app of applications">
+            <div class="col border"> 
+                {{app.nickname}}
+            </div>
+            <div class="col border"> 
+                {{app.discordNickname}}
+            </div>
+            <div class="col border"> 
+                {{app.ip}}
+            </div>
+            <div class="col border"> 
+                {{app.date}}
+            </div>
+            <div class="col border"> 
+                {{app.decision}}
+            </div>
+            <div class="col">
+                <button style="height: 90%;" (click)="redirectToView(app.id)">
+                    Подробнее
+                </button>
+            </div>
+        </div>
+    </div>
 </section>
+
+
