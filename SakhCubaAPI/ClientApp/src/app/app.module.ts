@@ -21,6 +21,7 @@ import { LoginComponent } from './login/login.component';
 import { AdminGetResolver } from './Resolvers/admingetall.resolver';
 import { AuthInterceptor } from './auth.interceptor';
 import { AdminGetOneResolver } from './Resolvers/admin-get-one.resolver';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent, pathMatch: 'full'},
@@ -64,7 +65,8 @@ const appRoutes: Routes = [
     FormsModule,
     HttpClientModule,
     RouterModule.forRoot(appRoutes),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgbModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

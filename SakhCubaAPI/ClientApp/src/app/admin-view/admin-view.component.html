@@ -15,18 +15,25 @@
         <p>
             {{application.ip}}
         </p>
-        <p>
+        <p #decisionParagraph>
             {{application.decision}}
         </p>
-        <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-              Dropdown button
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
-          </div>
+        <div ngbDropdown>
+            <div ngbDropdownItem class="d-inline-block">
+                <button type="button" class="btn btn-outline-primary"
+                 id="dropdownBasic1" ngbDropdownToggle #dropdown>{{application.decision}}</button>
+                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                  <button ngbDropdownItem (click)="setDecision(2, 'Принят')">Принят</button>
+                  <button ngbDropdownItem (click)="setDecision(3, 'Собеседование')">Собеседование</button>
+                  <button ngbDropdownItem (click)="setDecision(4, 'Отказ')">Отказ</button>
+                </div>
+            </div>
+        </div>
+        
+        <button (click)="sendApplication()">Отправить анкету</button>
+        <button (click)="deleteApplication()" style="background: red; color:white;">Удалить?</button>
+
+        <h2 *ngIf="ifError">Произошла ошибочка</h2>
+        <h2 *ngIf="ifClientError">На твоей стороне, дружок</h2>
     </div>
 </section>

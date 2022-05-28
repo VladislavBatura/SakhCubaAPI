@@ -54,7 +54,11 @@ app.UseSwaggerUI(c =>
 app.UseStaticFiles();
 app.UseRouting();
 
-app.UseCors(builder => {builder.AllowAnyOrigin(); builder.AllowAnyHeader(); });
+app.UseCors(builder => {
+    builder.AllowAnyOrigin();
+    builder.AllowAnyHeader(); 
+    builder.AllowAnyMethod();
+});
 
 app.UseAuthentication();
 app.UseAuthorization();
