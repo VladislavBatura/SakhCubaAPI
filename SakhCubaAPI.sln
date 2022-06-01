@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SakhCubaAPI", "SakhCubaAPI\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{28371524-CF66-45C6-B270-361A88DB34FD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "Contracts\Contracts.csproj", "{EE764D39-4A5B-4224-86FB-0214C211E709}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{397A1AA0-6DF3-4BCB-A494-BD519167321D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{28371524-CF66-45C6-B270-361A88DB34FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28371524-CF66-45C6-B270-361A88DB34FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28371524-CF66-45C6-B270-361A88DB34FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE764D39-4A5B-4224-86FB-0214C211E709}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE764D39-4A5B-4224-86FB-0214C211E709}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE764D39-4A5B-4224-86FB-0214C211E709}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE764D39-4A5B-4224-86FB-0214C211E709}.Release|Any CPU.Build.0 = Release|Any CPU
+		{397A1AA0-6DF3-4BCB-A494-BD519167321D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{397A1AA0-6DF3-4BCB-A494-BD519167321D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{397A1AA0-6DF3-4BCB-A494-BD519167321D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{397A1AA0-6DF3-4BCB-A494-BD519167321D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

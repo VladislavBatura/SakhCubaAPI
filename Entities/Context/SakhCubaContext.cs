@@ -7,7 +7,7 @@ namespace SakhCubaAPI.Context
     {
         public SakhCubaContext(DbContextOptions<SakhCubaContext> options) : base(options)
         {
-            Database.Migrate();
+            
         }
 
         protected override void OnModelCreating(ModelBuilder builder)

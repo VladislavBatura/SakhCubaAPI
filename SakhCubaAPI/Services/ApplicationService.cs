@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Contracts.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using SakhCubaAPI.Context;
 using SakhCubaAPI.Models.DBModels;
 using SakhCubaAPI.Models.ViewModels;
@@ -9,11 +10,13 @@ namespace SakhCubaAPI.Services
     {
         private readonly SakhCubaContext _context;
         private readonly AdminService _adminService;
+        private readonly IRepositoryWrapper _repository;
 
-        public ApplicationService(SakhCubaContext context, AdminService adminService)
+        public ApplicationService(SakhCubaContext context, AdminService adminService, IRepositoryWrapper repository)
         {
             _context = context;
             _adminService = adminService;
+            _repository = repository;
         }
 
         public async Task<News?> GetOneNewsAsync(int id)
@@ -36,6 +39,9 @@ namespace SakhCubaAPI.Services
 
         public async Task<IEnumerable<News>> GetLastNewsAsync(int howMany)
         {
+            var app = _repository.Application.GetAll(x => x.Decision);
+
+
             var news = await _context.News.TakeLast(howMany).ToListAsync();
             if (news == null)
             {

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Contracts.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SakhCubaAPI.Context;
@@ -14,11 +15,13 @@ namespace SakhCubaAPI.Controllers
     {
         private readonly ILogger _logger;
         private readonly ApplicationService _app;
+        private readonly IRepositoryWrapper _repository;
 
-        public AnketsController(ILogger<AnketsController> logger, SakhCubaContext context, ApplicationService app)
+        public AnketsController(ILogger<AnketsController> logger, ApplicationService app, IRepositoryWrapper repository)
         {
             _logger = logger;
             _app = app;
+            _repository = repository;
         }
 
         [HttpGet]

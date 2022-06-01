@@ -1,9 +1,11 @@
+using Contracts.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SakhCubaAPI;
 using SakhCubaAPI.Context;
 using SakhCubaAPI.Services;
+using Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +39,7 @@ builder.Services.AddScoped<SakhCubaContext>();
 builder.Services.AddScoped<ApplicationService>();
 builder.Services.AddScoped<AdminService>();
 builder.Services.AddScoped<NewsService>();
+builder.Services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
 
 var app = builder.Build();
 
