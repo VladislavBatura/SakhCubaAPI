@@ -3,12 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Entities.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SakhCubaAPI.Context;
-using SakhCubaAPI.Models.DBModels;
 using SakhCubaAPI.Services;
 
 namespace SakhCubaAPI.Areas.Admin.Controllers

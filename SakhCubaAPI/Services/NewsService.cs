@@ -1,33 +1,34 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SakhCubaAPI.Context;
-using SakhCubaAPI.Models.DBModels;
+﻿using Contracts.Interfaces;
+using Entities.Context;
+using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace SakhCubaAPI.Services
 {
     public class NewsService
     {
-        private readonly SakhCubaContext _context;
+        private readonly IRepositoryWrapper _repository;
 
-        public NewsService(SakhCubaContext context)
+        public NewsService(IRepositoryWrapper repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         public async void AddNewsAsync(News news)
         {
             news.Date = DateTime.UtcNow.Date;
-            _context.News.Add(news);
-            await _context.SaveChangesAsync();
+            _repository.News.CreateNews(news);
+            await _repository.SaveAsync();
         }
 
         public async Task<IEnumerable<News>> GetAllNewsAsync()
         {
-            return await _context.News.ToListAsync();
+            return await _repository.News.GetAllNewsAsync();
         }
 
         public async Task<News?> GetOneNewsAsync(int id)
         {
-            var news = await _context.News.FirstOrDefaultAsync(i => i.Id == id);
+            var news = await _repository.News.GetNewsByIdAsync(id);
             if (news == null)
             {
                 return null;
@@ -41,26 +42,28 @@ namespace SakhCubaAPI.Services
             {
                 return false;
             }
-            _context.News.Update(news);
-            await _context.SaveChangesAsync();
+
+            _repository.News.UpdateNews(news);
+            await _repository.SaveAsync();
             return true;
         }
 
         public async Task<bool> DeleteNewsAsync(int id)
         {
-            var news = IsExist(id);
-            if (news.Result == null)
+            var news = await IsExist(id);
+            if (news is null)
             {
                 return false;
             }
-            _context.News.Remove(news.Result);
-            await _context.SaveChangesAsync();
+
+            _repository.News.DeleteNews(news);
+            await _repository.SaveAsync();
             return true;
         }
 
         private async Task<News?> IsExist(int id)
         {
-            var news = await _context.News.FirstOrDefaultAsync(p => p.Id == id);
+            var news = await _repository.News.GetNewsByIdAsync(id);
             return news;
         }
     }

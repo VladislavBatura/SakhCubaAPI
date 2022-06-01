@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SakhCubaAPI.Context;
-using SakhCubaAPI.Models.DBModels;
 using SakhCubaAPI.Models.ViewModels;
 using SakhCubaAPI.Services;
 
@@ -15,13 +13,11 @@ namespace SakhCubaAPI.Controllers
     {
         private readonly ILogger _logger;
         private readonly ApplicationService _app;
-        private readonly IRepositoryWrapper _repository;
 
-        public AnketsController(ILogger<AnketsController> logger, ApplicationService app, IRepositoryWrapper repository)
+        public AnketsController(ILogger<AnketsController> logger, ApplicationService app)
         {
             _logger = logger;
             _app = app;
-            _repository = repository;
         }
 
         [HttpGet]

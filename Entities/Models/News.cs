@@ -1,4 +1,4 @@
-﻿namespace SakhCubaAPI.Models.DBModels
+﻿namespace Entities.Models
 {
     public class News
     {

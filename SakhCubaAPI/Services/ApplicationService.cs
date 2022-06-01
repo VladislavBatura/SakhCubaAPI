@@ -1,27 +1,25 @@
 ﻿using Contracts.Interfaces;
+using Entities.Context;
+using Entities.Models;
 using Microsoft.EntityFrameworkCore;
-using SakhCubaAPI.Context;
-using SakhCubaAPI.Models.DBModels;
 using SakhCubaAPI.Models.ViewModels;
 
 namespace SakhCubaAPI.Services
 {
     public class ApplicationService
     {
-        private readonly SakhCubaContext _context;
         private readonly AdminService _adminService;
         private readonly IRepositoryWrapper _repository;
 
-        public ApplicationService(SakhCubaContext context, AdminService adminService, IRepositoryWrapper repository)
+        public ApplicationService(AdminService adminService, IRepositoryWrapper repository)
         {
-            _context = context;
             _adminService = adminService;
             _repository = repository;
         }
 
         public async Task<News?> GetOneNewsAsync(int id)
         {
-            var news = await _context.News.FirstOrDefaultAsync(i => i.Id == id);
+            var news = await _repository.News.GetNewsByIdAsync(id);
             if (news == null)
             {
                 return null;
@@ -31,7 +29,7 @@ namespace SakhCubaAPI.Services
 
         public async Task<IEnumerable<News>> GetAllNewsAsync()
         {
-            var news = await _context.News.ToListAsync();
+            var news = await _repository.News.GetAllNewsAsync();
             if (news is null || !news.Any())
                 return Enumerable.Empty<News>();
             return news;
@@ -39,10 +37,8 @@ namespace SakhCubaAPI.Services
 
         public async Task<IEnumerable<News>> GetLastNewsAsync(int howMany)
         {
-            var app = _repository.Application.GetAll(x => x.Decision);
-
-
-            var news = await _context.News.TakeLast(howMany).ToListAsync();
+            var news = await _repository.News.GetAllNewsAsync();
+            news = news.Take(howMany).ToList();
             if (news == null)
             {
                 return Enumerable.Empty<News>();
@@ -55,7 +51,7 @@ namespace SakhCubaAPI.Services
             if (applicationVM is null)
                 return false;
 
-            var decisionHandler = await _context.Decisions.FirstOrDefaultAsync(d => d.Id == 1);
+            var decisionHandler = await _repository.Decision.GetDecisionByIdAsync(1);
             applicationVM.DecisionId = decisionHandler.Id;
             applicationVM.Date = DateTime.UtcNow.Date;
             applicationVM.Ip = ip;
@@ -64,8 +60,8 @@ namespace SakhCubaAPI.Services
             if (app is null)
                 return false;
 
-            _context.Applications.Add(app);
-            await _context.SaveChangesAsync();
+            _repository.Application.CreateApplication(app);
+            await _repository.SaveAsync();
 
             return true;
         }

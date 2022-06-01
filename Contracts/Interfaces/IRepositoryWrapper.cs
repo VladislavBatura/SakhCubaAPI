@@ -12,6 +12,6 @@ namespace Contracts.Interfaces
         IDecisionRepository Decision { get; }
         INewsRepository News { get; }
         IJWTUsersRepository JWTUser { get; }
-        void SaveAsync();
+        Task SaveAsync();
     }
 }

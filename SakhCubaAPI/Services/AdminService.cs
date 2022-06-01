@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SakhCubaAPI.Context;
-using SakhCubaAPI.Models.DBModels;
+﻿using Contracts.Interfaces;
+using Entities.Context;
+using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 using SakhCubaAPI.Models.ViewModels;
 using System.Linq;
 
@@ -8,17 +9,18 @@ namespace SakhCubaAPI.Services
 {
     public class AdminService
     {
-        private readonly SakhCubaContext _context;
-        public AdminService(SakhCubaContext context)
+        private readonly IRepositoryWrapper _repository;
+
+        public AdminService(IRepositoryWrapper repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         public async Task<IEnumerable<ApplicationViewModel>> GetApplicationsAsync()
         {
-            return ConvertAppToAppViewModelCollection(await _context.Applications
-                .Include(i => i.Decision)
-                .ToListAsync());
+            return ConvertAppToAppViewModelCollection(await _repository
+                .Application
+                .GetAllApplicationsAsync());
         }
 
         private IEnumerable<ApplicationViewModel> ConvertAppToAppViewModelCollection(
@@ -97,29 +99,29 @@ namespace SakhCubaAPI.Services
             if (app is null)
                 return false;
 
-            _context.Applications.Update(app);
-            await _context.SaveChangesAsync();
+            _repository.Application.Update(app);
+            await _repository.SaveAsync();
             return true;
         }
 
         public async Task<bool> DeleteApplicationAsync(int id)
         {
-            var app = IsExist(id);
-            if (app.Result == null)
+            var app = await IsExist(id);
+            if (app == null)
             {
                 return false;
             }
 
-            _context.Applications.Remove(app.Result);
-            await _context.SaveChangesAsync();
+            _repository.Application.Delete(app);
+            await _repository.SaveAsync();
             return true;
         }
 
         private async Task<Application?> IsExist(int id)
         {
-            var app = await _context.Applications
-                .Include(i => i.Decision)
-                .FirstOrDefaultAsync(p => p.Id == id);
+            var app = await _repository
+                .Application
+                .GetApplicationWithDetailsAsync(id);
             return app;
         }
     }

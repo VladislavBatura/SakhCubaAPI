@@ -1,12 +1,7 @@
 ﻿using Contracts.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using SakhCubaAPI.Context;
-using SakhCubaAPI.Models.DBModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Entities.Models;
+using Entities.Context;
 
 namespace Repository.Repositories
 {
@@ -30,6 +25,7 @@ namespace Repository.Repositories
         public async Task<IEnumerable<Application>> GetAllApplicationsAsync()
         {
             return await GetAll()
+                .Include(b => b.Decision)
                 .OrderBy(a => a.Id)
                 .ToListAsync();
         }

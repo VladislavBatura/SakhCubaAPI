@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Entities.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
-using SakhCubaAPI.Context;
-using SakhCubaAPI.Models.DBModels;
 using SakhCubaAPI.Models.ViewModels;
+using SakhCubaAPI.Services;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
@@ -14,15 +14,15 @@ namespace SakhCubaAPI.Areas.Admin.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly SakhCubaContext _context;
+        private readonly AuthService _authService;
 
-        public AuthController(SakhCubaContext context)
+        public AuthController(AuthService authService)
         {
-            _context = context;
+            _authService = authService;
         }
 
         [HttpPost("login")]
-        public IActionResult Login(JWT_Users user)
+        public async Task<IActionResult> Login(JWT_Users user)
         {
 
             if (!ModelState.IsValid)
@@ -30,28 +30,13 @@ namespace SakhCubaAPI.Areas.Admin.Controllers
                 return BadRequest(user.Email);
             }
 
-            var agent = _context.Users.FirstOrDefault(i => i.Email == user.Email);
+            var agent = await _authService.GetJWTUser(user.Email);
             if (agent is null || agent.Password != user.Password)
             {
                 return Unauthorized(user.Email);
             }
 
-            var claims = new List<Claim> { new Claim(ClaimTypes.Email, user.Email) };
-            var jwt = new JwtSecurityToken(
-                issuer: AuthOptions.ISSUER,
-                audience: AuthOptions.AUDIENCE,
-                claims: claims,
-                expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(30)),
-                signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(),
-                    SecurityAlgorithms.HmacSha512));
-
-            var js = new JWT_Token()
-            {
-                IdToken = new JwtSecurityTokenHandler().WriteToken(jwt),
-                ExpiresIn = DateTime.UtcNow.Add(TimeSpan.FromMinutes(30)).ToString()
-            };
-
-            var json = JsonConvert.SerializeObject(js);
+            var json = _authService.CreateJSONWithClaims(agent);
             return Ok(json);
         }
 
@@ -64,8 +49,8 @@ namespace SakhCubaAPI.Areas.Admin.Controllers
             }
             else
             {
-                _context.Users.Add(user);
-                await _context.SaveChangesAsync();
+                if (!await _authService.CreateJwtUser(user))
+                    return BadRequest("Something went wrong with DB");
                 return Ok();
             }
         }

@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SakhCubaAPI.Models.DBModels;
 using SakhCubaAPI.Models.ViewModels;
 using SakhCubaAPI.Services;
 

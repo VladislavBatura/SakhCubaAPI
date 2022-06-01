@@ -1,11 +1,6 @@
-﻿using SakhCubaAPI.Models.DBModels;
-using Contracts.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SakhCubaAPI.Context;
+﻿using Contracts.Interfaces;
+using Entities.Context;
+using Entities.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Repository.Repositories

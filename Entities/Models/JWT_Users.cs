@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SakhCubaAPI.Models.DBModels
+namespace Entities.Models
 {
     public class JWT_Users
     {

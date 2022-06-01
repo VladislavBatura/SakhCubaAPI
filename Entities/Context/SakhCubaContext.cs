@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SakhCubaAPI.Models.DBModels;
+using Entities.Models;
 
-namespace SakhCubaAPI.Context
+namespace Entities.Context
 {
     public class SakhCubaContext : DbContext
     {

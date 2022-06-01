@@ -1,11 +1,6 @@
 ﻿using Contracts.Interfaces;
 using Repository.Repositories;
-using SakhCubaAPI.Context;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Entities.Context;
 
 namespace Repository
 {
@@ -66,7 +61,7 @@ namespace Repository
             _sakhCubaContext = sakhCubaContext;
         }
 
-        public async void SaveAsync()
+        public async Task SaveAsync()
         {
             await _sakhCubaContext.SaveChangesAsync();
         }
