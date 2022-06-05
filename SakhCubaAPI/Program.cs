@@ -6,6 +6,7 @@ using SakhCubaAPI;
 using SakhCubaAPI.Services;
 using Repository;
 using Entities.Context;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -16,7 +16,7 @@ export class AdminGetOneResolver implements Resolve<boolean> {
   {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
-    var id = Number(route.paramMap.get('id')) || 0;
+    let id = Number(route.paramMap.get('id')) || 0;
     return this.adminService.getOneApplication(id);
   }
 

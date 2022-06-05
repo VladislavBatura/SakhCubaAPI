@@ -61,9 +61,9 @@ namespace SakhCubaAPI.Areas.Admin.Controllers
         // POST: api/News
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public ActionResult<News> PostNews(News news)
+        public async Task<IActionResult> PostNews(News news)
         {
-            _newsService.AddNewsAsync(news);
+            await _newsService.AddNewsAsync(news);
             return Ok();
         }
 

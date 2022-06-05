@@ -1,7 +1,50 @@
-<p>admin-news works!</p>
+<button class="btn btn-lg btn-outline-primary" (click)="open(content)">Launch demo modal</button>
 
-<input name="imageUrl" type="file" accept="image/*" (change)="handleImageUpload($event)" />
+<ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="mb-3">
+          <input type="text" [(ngModel)]="newsToCreate.title" name="title">
+          <input type="text" [(ngModel)]="newsToCreate.body" name="body">
+          <input name="imageUrl" type="file" accept="image/*" (change)="handleImageUpload($event)" />
+          <div>
+            <img [src]="imageSrc" style="max-width:300px;max-height:300px"/>
+        </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="sendNewsToServer(modal)">Отправить</button>
+    </div>
+</ng-template>
 
-<div>
-    <img [src]="imageSrc" style="max-width:300px;max-height:300px"/>
-</div> 
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col border"> 
+                Заголовок
+            </div>
+            <div class="col border"> 
+                Дата
+            </div>
+            <div class="col"></div>
+        </div>
+        <div class="row" *ngFor="let news of newsArray">
+            <div class="col border"> 
+                {{news.title}}
+            </div>
+            <div class="col border"> 
+                {{news.date}}
+            </div>
+            <div class="col">
+                <button style="height: 90%;" (click)="redirectToView(news.id)">
+                    Подробнее
+                </button>
+            </div>
+        </div>
+    </div>
+</section>

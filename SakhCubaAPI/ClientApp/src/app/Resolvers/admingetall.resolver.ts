@@ -13,10 +13,11 @@ import { AdminService } from '../Services/admin.service';
 export class AdminGetResolver implements Resolve<any> {
 
   constructor(
-    private adminRequest:AdminService,
+    private adminRequest:AdminService
   ){}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
     return this.adminRequest.getAllApplications();
   }
+
 }

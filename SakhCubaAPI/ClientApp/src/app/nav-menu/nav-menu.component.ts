@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { expand } from 'rxjs/operators';
-import { setTimeout } from 'timers';
 import { AuthService } from '../Services/auth.service';
 
 @Component({
@@ -30,5 +28,10 @@ export class NavMenuComponent implements OnInit {
 
   toggle() {
     this.isExpanded = !this.isExpanded;
+    console.log(this._authService.isLoggedIn());
+    if (this._authService.isLoggedIn()){
+      this.isLogged = true;
+      console.log("logged");
+    }
   }
 }

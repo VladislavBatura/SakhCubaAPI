@@ -22,6 +22,7 @@ export class AdminComponent implements OnInit {
       console.log(data);
       this.applications = data.adminGet;
     });
+    
   }
 
   loadApplications(){

@@ -1,1 +1,22 @@
-<p>admin-news-view works!</p>
+<section>
+    <div>
+        <p>
+            {{news.title}}
+        </p>
+        <p>
+            {{news.date}}
+        </p>
+        <p>
+            {{news.body}}
+        </p>
+        <div>
+            <img [src]="news.image" style="max-width:300px;max-height:300px"/>
+        </div> 
+
+        <button (click)="sendNews()">Отправить новость</button>
+        <button (click)="deleteNews()" style="background: red; color:white;">Удалить?</button>
+
+        <h2 *ngIf="ifError">Произошла ошибочка</h2>
+        <h2 *ngIf="ifClientError">На твоей стороне, дружок</h2>
+    </div>
+</section>

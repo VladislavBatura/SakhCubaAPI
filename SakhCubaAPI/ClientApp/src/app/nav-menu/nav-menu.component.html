@@ -4,17 +4,7 @@
   >
     <div class="container">
       <a class="navbar-brand" [routerLink]="['/']">SakhCuba</a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target=".navbar-collapse"
-        aria-label="Toggle navigation"
-        [attr.aria-expanded]="isExpanded"
-        (click)="toggle()"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
+      <button (click)="toggle()"></button>
       <div
         class="navbar-collapse collapse d-sm-inline-flex justify-content-end"
         [ngClass]="{ show: isExpanded }"
@@ -51,5 +41,29 @@
         </ul>
       </div>
     </div>
+  </nav>
+  <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3"
+   *ngIf="isLogged">
+    <div
+        class="navbar-collapse collapse d-sm-inline-flex justify-content-end"
+        [ngClass]="{ show: isExpanded }"
+      >
+        <ul class="navbar-nav flex-grow">
+          <li
+            class="nav-item"
+            [routerLinkActive]="['link-active']"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <a class="nav-link text-dark" [routerLink]="['/admin']">Админская</a>
+          </li>
+          <li class="nav-item"
+           [routerLinkActive]="['link-active']"
+            [routerLinkActiveOptions]="{exact:true}">
+            <a class="nav-link text-dark" [routerLink]="['/admin/news']"
+              >Админская новостей</a
+            >
+          </li>
+        </ul>
+      </div>
   </nav>
 </header>

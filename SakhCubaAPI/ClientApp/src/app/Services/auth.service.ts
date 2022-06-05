@@ -2,9 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { login } from 'src/assets/Adressess';
 import { UserApp } from '../../assets/UserApp';
-import * as moment from 'moment';
-import { Observable } from 'rxjs';
 import {shareReplay, tap} from 'rxjs/operators';
+import { Credentials } from 'src/assets/Credentials';
 
 @Injectable({
   providedIn: 'root'
@@ -18,10 +17,13 @@ export class AuthService {
   }
 
   private setSession(authResult : any) {
-    const expiresAt = moment().add(authResult.ExpiresIn, 'second');
+    /*let obj: Credentials = JSON.parse(authResult);
+
+    let expiration = obj.ExpiresIn;
+    let token = obj.idToken;*/
 
     localStorage.setItem('id_token', authResult.IdToken);
-    localStorage.setItem('expires_at', JSON.stringify(expiresAt.valueOf()));
+    localStorage.setItem('expires_at', authResult.ExpiresIn);
   }
 
   logOut() {
@@ -30,7 +32,7 @@ export class AuthService {
   }
 
   public isLoggedIn(){
-    return moment().isBefore(this.getExpiration());
+    return !this.getExpiration();
   }
 
   isLoggedOut(){
@@ -38,8 +40,9 @@ export class AuthService {
   }
 
   getExpiration(){
-    const expiration = localStorage.getItem('expires_at');
-    const expiresAt = JSON.parse(expiration!);
-    return moment(expiresAt);
+    const expiration = localStorage.getItem('id_token');
+
+    const expiry = (JSON.parse(atob(expiration!.split('.')[1]))).exp;
+    return (Math.floor((new Date).getTime() / 1000)) >= expiry;
   }
 }

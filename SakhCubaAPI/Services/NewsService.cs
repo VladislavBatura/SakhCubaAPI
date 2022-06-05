@@ -14,7 +14,7 @@ namespace SakhCubaAPI.Services
             _repository = repository;
         }
 
-        public async void AddNewsAsync(News news)
+        public async Task AddNewsAsync(News news)
         {
             news.Date = DateTime.UtcNow.Date;
             _repository.News.CreateNews(news);

@@ -22,6 +22,8 @@ import { AdminGetResolver } from './Resolvers/admingetall.resolver';
 import { AuthInterceptor } from './auth.interceptor';
 import { AdminGetOneResolver } from './Resolvers/admin-get-one.resolver';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AdminNewsGetAllResolver } from './Resolvers/admin-news-get-all.resolver';
+import { AdminNewsGetOneResolver } from './Resolvers/admin-news-get-one.resolver';
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent, pathMatch: 'full'},
@@ -31,13 +33,19 @@ const appRoutes: Routes = [
   {path: 'application', component: ApplicationComponent, pathMatch: 'full'},
   {path: 'login', component: LoginComponent, pathMatch: 'full'},
   //news
-  {path: 'admin/news', component: AdminNewsComponent, pathMatch: 'full'},
-  {path: 'admin/news/:id', component: AdminNewsViewComponent, pathMatch: 'full'},
+  {path: 'admin/news', component: AdminNewsComponent, pathMatch: 'full', resolve: {
+    newsGet: AdminNewsGetAllResolver
+  }},
+  {path: 'admin/news/:id', component: AdminNewsViewComponent, pathMatch: 'full', resolve:{
+    oneNews: AdminNewsGetOneResolver
+  }},
   //admin
   {path: 'admin', component: AdminComponent, pathMatch: 'full', resolve: {
     adminGet: AdminGetResolver
   }},
-  {path: 'admin/:id', component: AdminViewComponent, pathMatch: 'full', resolve: {adminGetOne: AdminGetOneResolver}},
+  {path: 'admin/:id', component: AdminViewComponent, pathMatch: 'full', resolve: {
+    adminGetOne: AdminGetOneResolver
+  }},
   
 
   {path: '**', component: NotFoundComponent}
