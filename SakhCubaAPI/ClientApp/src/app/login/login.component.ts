@@ -12,6 +12,7 @@ export class LoginComponent implements OnInit {
 
   form:FormGroup;
   isError:boolean = false;
+  isLoading = false;
 
   constructor(private fb:FormBuilder,
     private authService:AuthService,
@@ -27,17 +28,18 @@ export class LoginComponent implements OnInit {
 
   login() {
     const val = this.form.value;
+    this.isLoading = true;
 
     if (val.email && val.password) {
       this.authService.login(val.email, val.password)
         .subscribe(
           () => {
-            console.log("User is logged in");
             this.router.navigateByUrl('/admin');
           },
           error => {
             console.log(error);
             this.isError = true;
+            this.isLoading = false;
           }
         )
     }

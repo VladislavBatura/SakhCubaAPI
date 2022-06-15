@@ -364,3 +364,4 @@ FodyWeavers.xsd
 
 #Angular
 SakhCubaAPI/ClientApp/.angular/cache
+SakhCubaAPI/ClientApp/.angular/cache/*

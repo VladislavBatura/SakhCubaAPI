@@ -1,50 +1,58 @@
-<button class="btn btn-lg btn-outline-primary" (click)="open(content)">Launch demo modal</button>
+<div *ngIf="!newsArray.length">
+    <div class="spinner-border m-5" role="status">
+        <span class="sr-only"></span>
+    </div>
+</div>
 
-<ng-template #content let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
-      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-    </div>
-    <div class="modal-body">
-      <form>
-        <div class="mb-3">
-          <input type="text" [(ngModel)]="newsToCreate.title" name="title">
-          <input type="text" [(ngModel)]="newsToCreate.body" name="body">
-          <input name="imageUrl" type="file" accept="image/*" (change)="handleImageUpload($event)" />
-          <div>
-            <img [src]="imageSrc" style="max-width:300px;max-height:300px"/>
-        </div>
-        </div>
-      </form>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="sendNewsToServer(modal)">Отправить</button>
-    </div>
-</ng-template>
+<div *ngIf="newsArray.length">
+    <button class="btn btn-lg btn-outline-primary" (click)="open(content)">Добавить новость</button>
 
-<section>
-    <div class="container">
-        <div class="row">
-            <div class="col border"> 
-                Заголовок
-            </div>
-            <div class="col border"> 
-                Дата
-            </div>
-            <div class="col"></div>
+    <ng-template #content let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">Добавление новости</h4>
+          <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
         </div>
-        <div class="row" *ngFor="let news of newsArray">
-            <div class="col border"> 
-                {{news.title}}
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <input type="text" [(ngModel)]="newsToCreate.title" name="title">
+              <input type="text" [(ngModel)]="newsToCreate.body" name="body">
+              <input name="imageUrl" type="file" accept="image/*" (change)="handleImageUpload($event)" />
+              <div>
+                <img [src]="imageSrc" style="max-width:300px;max-height:300px"/>
             </div>
-            <div class="col border"> 
-                {{news.date}}
             </div>
-            <div class="col">
-                <button style="height: 90%;" (click)="redirectToView(news.id)">
-                    Подробнее
-                </button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-dark" (click)="sendNewsToServer(modal)">Отправить</button>
+        </div>
+    </ng-template>
+    
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col border"> 
+                    Заголовок
+                </div>
+                <div class="col border"> 
+                    Дата
+                </div>
+                <div class="col"></div>
+            </div>
+            <div class="row" *ngFor="let news of newsArray">
+                <div class="col border"> 
+                    {{news.title}}
+                </div>
+                <div class="col border"> 
+                    {{news.date}}
+                </div>
+                <div class="col">
+                    <button style="height: 90%;" (click)="redirectToView(news.id)">
+                        Подробнее
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
+</div>

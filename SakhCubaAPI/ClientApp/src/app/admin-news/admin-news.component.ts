@@ -63,13 +63,7 @@ export class AdminNewsComponent implements OnInit {
   }
 
   sendNewsToServer(modal: any){
-    let newsToServer = new News(this.newsToCreate.id,
-       this.newsToCreate.title,
-        this.newsToCreate.date,
-         this.newsToCreate.body,
-          this.newsToCreate.image);
-    console.log(newsToServer);
-    this.adminService.postNews(newsToServer).subscribe({
+    this.adminService.postNews(this.newsToCreate).subscribe({
       error: err => {
         console.log(err);
         //this.ifError = true;
@@ -79,5 +73,6 @@ export class AdminNewsComponent implements OnInit {
       },
       complete: () => modal.close()
     });
+    this.newsArray.push(this.newsToCreate);
   }
 }

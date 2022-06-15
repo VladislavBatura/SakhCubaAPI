@@ -1,46 +1,52 @@
-<section>
-    <div class="container">
-        <div class="row">
-            <div class="col border"> 
-                Ник
-            </div>
-            <div class="col border"> 
-                Ник в дискорде
-            </div>
-            <div class="col border"> 
-                IP
-            </div>
-            <div class="col border"> 
-                Дата
-            </div>
-            <div class="col border"> 
-                Решение
-            </div>
-            <div class="col"></div>
-        </div>
-        <div class="row" *ngFor="let app of applications">
-            <div class="col border"> 
-                {{app.nickname}}
-            </div>
-            <div class="col border"> 
-                {{app.discordNickname}}
-            </div>
-            <div class="col border"> 
-                {{app.ip}}
-            </div>
-            <div class="col border"> 
-                {{app.date}}
-            </div>
-            <div class="col border"> 
-                {{app.decision}}
-            </div>
-            <div class="col">
-                <button style="height: 90%;" (click)="redirectToView(app.id)">
-                    Подробнее
-                </button>
-            </div>
-        </div>
+<div *ngIf="!applications.length">
+    <div class="spinner-border m-5" role="status">
+        <span class="sr-only"></span>
     </div>
-</section>
+</div>
 
-
+<div *ngIf="applications.length">
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col border"> 
+                    Ник
+                </div>
+                <div class="col border"> 
+                    Ник в дискорде
+                </div>
+                <div class="col border"> 
+                    IP
+                </div>
+                <div class="col border"> 
+                    Дата
+                </div>
+                <div class="col border"> 
+                    Решение
+                </div>
+                <div class="col"></div>
+            </div>
+            <div class="row" *ngFor="let app of applications">
+                <div class="col border"> 
+                    {{app.nickname}}
+                </div>
+                <div class="col border"> 
+                    {{app.discordNickname}}
+                </div>
+                <div class="col border"> 
+                    {{app.ip}}
+                </div>
+                <div class="col border"> 
+                    {{app.date}}
+                </div>
+                <div class="col border"> 
+                    {{app.decision}}
+                </div>
+                <div class="col">
+                    <button style="height: 90%;" (click)="redirectToView(app.id)">
+                        Подробнее
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
